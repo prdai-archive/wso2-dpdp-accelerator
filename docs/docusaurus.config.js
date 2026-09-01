@@ -12,8 +12,8 @@ const config = {
   baseUrl,
   organizationName: 'wso2',
   projectName: 'dpdp-accelerator',
-  onBrokenLinks: 'warn',
-  onBrokenMarkdownLinks: 'warn',
+  onBrokenLinks: 'throw',
+  onBrokenMarkdownLinks: 'throw',
   i18n: {
     defaultLocale: 'en',
     locales: ['en'],
