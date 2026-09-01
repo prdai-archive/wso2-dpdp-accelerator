@@ -39,7 +39,7 @@ jobs:
           npm run build 2>&1 | tee build.log
         working-directory: docs
         env:
-          BASE_URL: /wso2-dpdp-accelerator/
+          BASE_URL: /dpdp-accelerator/
 
       - name: Report broken-link warnings
         if: always()

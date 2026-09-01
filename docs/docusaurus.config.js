@@ -1,17 +1,16 @@
 // @ts-check
 const { themes: prismThemes } = require('prism-react-renderer');
 
-const baseUrl = process.env.BASE_URL || '/wso2-dpdp-accelerator/';
+const baseUrl = process.env.BASE_URL || '/dpdp-accelerator/';
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
   title: 'WSO2 DPDP Accelerator Documentation',
   tagline: 'Documentation for the WSO2 DPDP (Digital Personal Data Protection) Accelerator',
-  favicon: 'img/favicon.svg',
-  url: 'https://prdai-archive.github.io',
+  url: 'https://wso2.github.io',
   baseUrl,
-  organizationName: 'prdai-archive',
-  projectName: 'wso2-dpdp-accelerator',
+  organizationName: 'wso2',
+  projectName: 'dpdp-accelerator',
   onBrokenLinks: 'warn',
   onBrokenMarkdownLinks: 'warn',
   i18n: {
@@ -39,9 +38,10 @@ const config = {
       /** @type {import('@docusaurus/preset-classic').Options} */
       ({
         docs: {
+          path: 'content',
           routeBasePath: 'docs',
           sidebarPath: './sidebars.js',
-          editUrl: 'https://github.com/prdai-archive/wso2-dpdp-accelerator/edit/main/docs/',
+          editUrl: 'https://github.com/wso2/dpdp-accelerator/edit/main/docs/content/',
           showLastUpdateTime: true,
         },
         blog: false,
@@ -69,7 +69,7 @@ const config = {
         items: [
           { to: '/docs/setup-guide', label: 'Guides', position: 'left' },
           {
-            href: 'https://github.com/prdai-archive/wso2-dpdp-accelerator',
+            href: 'https://github.com/wso2/dpdp-accelerator',
             label: 'GitHub',
             position: 'right',
           },
