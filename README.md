@@ -14,7 +14,7 @@ mvn clean install
 ```
 
 This builds the consent portal (frontend + backend WAR) and packages
-`wso2-dpdp-is-accelerator-<version>.zip` under
+`wso2-dpdpiam-accelerator-<version>.zip` under
 `dpdp-accelerator/accelerators/dpdp-is/target/` — ready to unzip inside
 `<IS_HOME>`. See [`docs/content/setup-guide.md`](docs/content/setup-guide.md) for
 installation.

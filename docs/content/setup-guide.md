@@ -27,7 +27,7 @@ not run on an un-updated 7.3.0.
 
 ## 2. Get the accelerator
 
-Either download a released `wso2-dpdp-is-accelerator-<version>.zip`, or build
+Either download a released `wso2-dpdpiam-accelerator-<version>.zip`, or build
 it from source:
 
 ```sh
@@ -35,7 +35,7 @@ mvn clean install
 ```
 
 Run from the repository root — this produces
-`dpdp-accelerator/accelerators/dpdp-is/target/wso2-dpdp-is-accelerator-<version>.zip`.
+`dpdp-accelerator/accelerators/dpdp-is/target/wso2-dpdpiam-accelerator-<version>.zip`.
 See the [repository README](https://github.com/wso2/dpdp-accelerator#build) for details.
 
 ## 3. Extract the accelerator

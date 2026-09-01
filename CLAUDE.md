@@ -25,7 +25,7 @@ parents to the root pom, matching the Financial Services accelerator layout), so
 `dpdp-accelerator/` silently skips the accelerator zip and only builds the portal. See
 [`README.md`](README.md) for more background on prerequisites.
 
-Output: `dpdp-accelerator/accelerators/dpdp-is/target/wso2-dpdp-is-accelerator-<version>.zip`
+Output: `dpdp-accelerator/accelerators/dpdp-is/target/wso2-dpdpiam-accelerator-<version>.zip`
 
 ### Tests
 
@@ -61,7 +61,7 @@ frontend/ (Vite SPA)
   └─ npm run build → frontend/dist (incl. generated index.jsp/home.jsp/auth.jsp)
       └─ consent-portal.war  (war plugin, webResources = frontend/dist, webXml = ./web.xml)
           └─ unzipped by accelerators/dpdp-is antrun `create-solution` into carbon-home/
-              └─ wso2-dpdp-is-accelerator-<version>.zip
+              └─ wso2-dpdpiam-accelerator-<version>.zip
                   ├─ bin/merge.sh <IS_HOME>      copies carbon-home/* over the product
                   └─ bin/configure.sh <IS_HOME>  installs deployment.toml, runs consent DB migration
 ```

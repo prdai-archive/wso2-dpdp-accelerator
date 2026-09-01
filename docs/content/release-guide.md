@@ -16,7 +16,7 @@ dispatched by hand — nothing releases on a push or a merge.
 | | |
 |---|---|
 | Tag | `vX.Y.Z`, pointing at a `[Release] X.Y.Z` commit |
-| Release assets | `wso2-dpdp-is-accelerator-X.Y.Z.zip`, plus the source archives GitHub attaches to every release automatically. GitHub publishes a SHA-256 digest for each asset itself, so no checksum sidecar is uploaded |
+| Release assets | `wso2-dpdpiam-accelerator-X.Y.Z.zip`, plus the source archives GitHub attaches to every release automatically. GitHub publishes a SHA-256 digest for each asset itself, so no checksum sidecar is uploaded |
 | Follow-up | A commit on `main` raising the reactor to the next `-SNAPSHOT` |
 
 The root `pom.xml` is the single source of truth for the version — there is deliberately no

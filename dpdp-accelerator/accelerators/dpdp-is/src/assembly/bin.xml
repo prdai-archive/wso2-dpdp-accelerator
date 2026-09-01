@@ -20,7 +20,7 @@
           xsi:schemaLocation="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.2 http://maven.apache.org/xsd/assembly-1.1.2.xsd">
     <id>dpdp.is.accelerator</id>
     <includeBaseDirectory>true</includeBaseDirectory>
-    <baseDirectory>wso2-dpdp-is-accelerator-${project.version}</baseDirectory>
+    <baseDirectory>wso2-dpdpiam-accelerator-${project.version}</baseDirectory>
 
     <formats>
         <format>zip</format>

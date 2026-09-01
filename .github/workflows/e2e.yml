@@ -210,9 +210,9 @@ jobs:
 
       - name: Apply the accelerator
         run: |
-          zip_path=$(find dpdp-accelerator/accelerators/dpdp-is/target -maxdepth 1 -name "wso2-dpdp-is-accelerator-*.zip" | head -1)
+          zip_path=$(find dpdp-accelerator/accelerators/dpdp-is/target -maxdepth 1 -name "wso2-dpdpiam-accelerator-*.zip" | head -1)
           if [ -z "${zip_path}" ]; then
-            echo "::error::No wso2-dpdp-is-accelerator-*.zip under dpdp-accelerator/accelerators/dpdp-is/target"
+            echo "::error::No wso2-dpdpiam-accelerator-*.zip under dpdp-accelerator/accelerators/dpdp-is/target"
             exit 1
           fi
           unzip -q "${zip_path}" -d "$IS_HOME"

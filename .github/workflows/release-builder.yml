@@ -211,7 +211,7 @@ jobs:
         run: |
           set -euo pipefail
           version="${{ needs.prepare.outputs.version }}"
-          zip="dpdp-accelerator/accelerators/dpdp-is/target/wso2-dpdp-is-accelerator-${version}.zip"
+          zip="dpdp-accelerator/accelerators/dpdp-is/target/wso2-dpdpiam-accelerator-${version}.zip"
           if [ ! -f "${zip}" ]; then
             echo "::error::Expected ${zip}, which means versions:set did not reach every module."
             ls -1 dpdp-accelerator/accelerators/dpdp-is/target/*.zip 2>/dev/null || true
@@ -323,7 +323,7 @@ jobs:
               highlights = fs.readFileSync(notesPath, 'utf8').trim();
             }
 
-            const zip = `wso2-dpdp-is-accelerator-${version}.zip`;
+            const zip = `wso2-dpdpiam-accelerator-${version}.zip`;
             const dl = `https://github.com/${owner}/${repo}/releases/download/${tag}`;
             const src = `https://github.com/${owner}/${repo}/blob/${tag}`;
 
@@ -343,7 +343,7 @@ jobs:
               '',
               '```sh',
               `unzip ${zip}`,
-              `cd wso2-dpdp-is-accelerator-${version}`,
+              `cd wso2-dpdpiam-accelerator-${version}`,
               'bash bin/merge.sh     <IS_HOME>',
               'bash bin/configure.sh <IS_HOME>',
               '```',
