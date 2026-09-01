@@ -1,7 +1,5 @@
-# Builds the Docusaurus docs site and deploys it to GitHub Pages on every push
-# to main (plus manual dispatch). The site is served from the project Pages
-# sub-path https://wso2.github.io/dpdp-accelerator/, hence
-# BASE_URL=/dpdp-accelerator/.
+# Deploys the Docusaurus docs site to GitHub Pages on push to main (or manual
+# dispatch). Served from https://wso2.github.io/dpdp-accelerator/.
 name: Docs publish
 
 on:
