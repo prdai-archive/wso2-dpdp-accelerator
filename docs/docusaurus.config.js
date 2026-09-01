@@ -7,6 +7,7 @@ const baseUrl = process.env.BASE_URL || '/dpdp-accelerator/';
 const config = {
   title: 'WSO2 DPDP Accelerator Documentation',
   tagline: 'Documentation for the WSO2 DPDP (Digital Personal Data Protection) Accelerator',
+  favicon: 'img/favicon.svg',
   url: 'https://wso2.github.io',
   baseUrl,
   organizationName: 'wso2',
@@ -65,6 +66,7 @@ const config = {
         logo: {
           alt: 'WSO2 DPDP Accelerator',
           src: 'img/logo.svg',
+          srcDark: 'img/logo-dark.svg',
         },
         items: [
           { to: '/docs/setup-guide', label: 'Guides', position: 'left' },
