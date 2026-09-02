@@ -20,10 +20,6 @@ pom.xml.releaseBackup
 **/frontend/npm/
 npm-debug.log*
 
-# Python
-__pycache__/
-*.py[cod]
-
 # Accelerator overlay: the exploded webapp and OSGi bundle jars are generated
 # at package time.
 **/carbon-home/repository/deployment/server/webapps/
@@ -56,7 +52,3 @@ __pycache__/
 **/terraform.tfvars
 **/secret.tfvars
 kube-config/*.yaml
-
-# Generated documentation
-docs/.docusaurus/
-docs/build/

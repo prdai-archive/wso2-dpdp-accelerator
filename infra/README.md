@@ -1,32 +1,29 @@
-# Data-center deployment
+# Data-center infrastructure
 
-This directory provisions two Ubuntu 24.04 VMs on Harvester with the
+Terraform provisions two Ubuntu 24.04 VMs on Harvester with the
 [`wso2/open-cloud-datacenter`](https://github.com/wso2/open-cloud-datacenter)
-Terraform modules pinned to `terraform/v0.1.7`.
+modules pinned to `terraform/v0.1.7`.
 
-| VM | Purpose | vCPU | RAM | Root disk |
+| VM | Intended role | vCPU | RAM | Root disk |
 | --- | --- | ---: | ---: | ---: |
-| `<prefix>-is` | WSO2 Identity Server 7.3.0 and the DPDP accelerator | 6 | 12 GiB | 50 GiB |
-| `<prefix>-db` | MySQL and all IS/accelerator databases | 2 | 4 GiB | 50 GiB |
+| `<prefix>-is` | Identity Server | 6 | 12 GiB | 50 GiB |
+| `<prefix>-db` | Database | 2 | 4 GiB | 50 GiB |
 
 The split stays within the quoted total of 8 vCPU, 16 GiB RAM, and 100 GiB
-storage. IS receives most compute for the JVM and portal; MySQL receives half
-the storage because it owns the persistent deployment data. These defaults are
-appropriate for the current demonstration deployment, not a production HA
-topology.
+storage. This PR only provisions infrastructure and SSH access. It does not
+install or configure WSO2 Identity Server, a database, or the accelerator.
 
 ## Prerequisites
 
-- Terraform 1.7 or newer and ShellCheck, or `devbox shell`
+- Terraform 1.7 or newer, or `devbox shell`
 - a Harvester bootstrap kubeconfig that can create namespace access
 - the Harvester API address, tenant namespace, Ubuntu image, and VM network
-- an Ed25519 SSH key pair (or another public key configured in tfvars)
-- JDK 21 and Maven on the operator machine to build the accelerator
+- one SSH public key for every person who needs VM access
 
-## 1. Create namespace-scoped access
+## Create namespace-scoped access
 
 The bootstrap kubeconfig is used only by `infra/access`. The resulting
-long-lived service-account credential is written to the git-ignored
+service-account kubeconfig is written to the git-ignored
 `kube-config/harvester.yaml` with mode 0600.
 
 ```bash
@@ -36,38 +33,49 @@ make access-plan
 make access-apply
 ```
 
-## 2. Plan and create the VMs
+## Provision the VMs
+
+Copy the variables file and add each collaborator's public key to
+`ssh_authorized_keys`. Keys should be collected through an authenticated channel;
+private keys must never be shared.
 
 ```bash
 cp infra/vms/terraform.tfvars.example infra/vms/terraform.tfvars
-# Fill in the tenant values and point ssh_public_key_path at your .pub file.
+# Fill in the tenant values and SSH public keys.
 make vms-plan
-# Only after reviewing the plan:
+# Review the plan before applying it.
 make vms-apply
 make ips
 ```
 
-No infrastructure has been applied by this repository change. Harvester must
-return IP leases before the next stage can run.
+No infrastructure is created until `make access-apply` or `make vms-apply` is
+run with real Harvester values.
 
-## 3. Configure SSH and deploy
+## SSH access
 
-Build the accelerator, copy the environment template, and paste the two IPs
-from `make ips` into `.env`.
+Each collaborator connects with the private key matching their configured
+public key:
 
 ```bash
-mvn clean install
-cp .env.example .env
-make ssh-is
-make ssh-db
-make setup
+ssh -i ~/.ssh/id_ed25519 ubuntu@<VM_IP>
 ```
 
-`make setup` installs MySQL on the database VM, installs WSO2 IS 7.3.0 on the
-application VM, applies the schemas only to empty databases, installs the built
-accelerator, and registers IS as a systemd service. Re-running it preserves
-existing database contents.
+The operator can use the convenience targets, overriding `SSH_KEY` when needed:
 
-Secrets remain in the local `.env`, `secret.tfvars`, Terraform state, and
-kubeconfig files. All are ignored by Git. Terraform state still contains
-sensitive values, so keep it in protected storage and do not share it.
+```bash
+make ssh-is
+make ssh-db SSH_KEY=$HOME/.ssh/id_ed25519_work
+```
+
+Adding a key to Terraform after a VM has already booted does not reliably rerun
+cloud-init. Add all known keys before the first apply. For later access, an
+existing administrator should append the new public key to the VM user's
+`~/.ssh/authorized_keys`, or the VM should be deliberately reprovisioned after
+its data-recovery impact is reviewed.
+
+## Console fallback
+
+Harvester administrators can use `virtctl console <VM_NAME> -n <NAMESPACE>`
+with an authorized Harvester kubeconfig when SSH is unavailable. Exit the serial
+console with `Ctrl+]`. Console access is an administrative recovery path and is
+not a replacement for per-person SSH keys.

@@ -31,22 +31,15 @@ variable "vm_user" {
   default     = "ubuntu"
 }
 
-variable "vm_password" {
-  type        = string
-  description = "Password for vm_user. Leave null to allow key-only SSH; set it if you want console/password access as a fallback."
-  default     = null
-  sensitive   = true
-}
-
 variable "ssh_authorized_keys" {
   type        = list(string)
-  description = "SSH public keys authorised for vm_user on both VMs. This is what `make ssh-is` / `make ssh-db` use."
+  description = "SSH public keys authorised for vm_user on both VMs. Add one key for each person who needs access."
   default     = []
 }
 
 variable "ssh_public_key_path" {
   type        = string
-  description = "Optional path to one SSH public key. Tilde expansion happens inside the module, unlike file() in a tfvars file."
+  description = "Optional path to the operator's SSH public key. Tilde expansion happens inside the module, unlike file() in a tfvars file."
   default     = null
 }
 

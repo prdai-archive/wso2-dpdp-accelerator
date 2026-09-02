@@ -1,11 +1,9 @@
-# The VM module only emits cloud-init when at least one of password /
-# ssh_authorized_keys is set. With neither, there is no qemu-guest-agent either,
-# so `wait_for_lease` would never see an IP and apply would hang until timeout -
-# worth failing on up front rather than 10 minutes into a plan.
+# The VM module only emits cloud-init when an SSH key is set. Without cloud-init,
+# the guest agent is also absent and Harvester cannot report the VM address.
 check "vm_access" {
   assert {
-    condition     = length(var.ssh_authorized_keys) > 0 || var.ssh_public_key_path != null || var.vm_password != null
-    error_message = "Set ssh_public_key_path, ssh_authorized_keys, and/or vm_password: with none, the VM gets no cloud-init or qemu-guest-agent."
+    condition     = length(var.ssh_authorized_keys) > 0 || var.ssh_public_key_path != null
+    error_message = "Set ssh_public_key_path and/or ssh_authorized_keys so the VMs receive cloud-init and can be reached over SSH."
   }
 }
 
@@ -20,7 +18,6 @@ locals {
     image_name          = var.vm_image
     network_name        = var.vm_network
     default_user        = var.vm_user
-    password            = var.vm_password
     ssh_authorized_keys = local.ssh_authorized_keys
   }
 }
@@ -39,7 +36,6 @@ module "is_vm" {
   image_name          = local.common.image_name
   network_name        = local.common.network_name
   default_user        = local.common.default_user
-  password            = local.common.password
   ssh_authorized_keys = local.common.ssh_authorized_keys
 }
 
@@ -57,6 +53,5 @@ module "db_vm" {
   image_name          = local.common.image_name
   network_name        = local.common.network_name
   default_user        = local.common.default_user
-  password            = local.common.password
   ssh_authorized_keys = local.common.ssh_authorized_keys
 }

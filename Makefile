@@ -1,9 +1,10 @@
 ACCESS_DIR := infra/access
 VMS_DIR := infra/vms
 KUBECONFIG_PATH := $(CURDIR)/kube-config/harvester.yaml
-SECRET_VARS := $(if $(wildcard $(VMS_DIR)/secret.tfvars),-var-file=secret.tfvars,)
+SSH_USER ?= ubuntu
+SSH_KEY ?= $(HOME)/.ssh/id_ed25519
 
-.PHONY: help access-init access-plan access-apply vms-init vms-plan vms-apply ips ssh-is ssh-db setup validate
+.PHONY: help access-init access-plan access-apply vms-init vms-plan vms-apply ips ssh-is ssh-db validate
 
 help:
 	@echo "Targets:"
@@ -14,8 +15,7 @@ help:
 	@echo "  ips            print the VM addresses returned by Harvester"
 	@echo "  ssh-is         open an SSH session on the Identity Server VM"
 	@echo "  ssh-db         open an SSH session on the MySQL VM"
-	@echo "  setup          install MySQL, WSO2 IS, and the built accelerator"
-	@echo "  validate       format-check Terraform and lint deployment scripts"
+	@echo "  validate       format-check and validate both Terraform roots"
 
 access-init:
 	terraform -chdir=$(ACCESS_DIR) init
@@ -33,24 +33,21 @@ vms-init:
 	terraform -chdir=$(VMS_DIR) init
 
 vms-plan: vms-init
-	terraform -chdir=$(VMS_DIR) plan $(SECRET_VARS)
+	terraform -chdir=$(VMS_DIR) plan
 
 vms-apply: vms-init
-	terraform -chdir=$(VMS_DIR) apply $(SECRET_VARS)
+	terraform -chdir=$(VMS_DIR) apply
 
 ips:
 	@terraform -chdir=$(VMS_DIR) output vms
 
 ssh-is:
-	./scripts/ssh.sh is
+	ssh -i $(SSH_KEY) $(SSH_USER)@$$(terraform -chdir=$(VMS_DIR) output -raw is_vm_ip)
 
 ssh-db:
-	./scripts/ssh.sh db
-
-setup:
-	./scripts/setup-all.sh
+	ssh -i $(SSH_KEY) $(SSH_USER)@$$(terraform -chdir=$(VMS_DIR) output -raw db_vm_ip)
 
 validate:
 	terraform fmt -check -recursive infra
-	shellcheck -x -P scripts scripts/*.sh scripts/remote/*.sh
-	python3 -m py_compile scripts/remote/patch-datasources.py
+	terraform -chdir=$(ACCESS_DIR) validate
+	terraform -chdir=$(VMS_DIR) validate
