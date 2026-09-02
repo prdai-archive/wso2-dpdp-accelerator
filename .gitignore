@@ -45,7 +45,6 @@ npm-debug.log*
 .env.local
 
 # Data-center infrastructure
-.devbox/
 **/.terraform/
 *.tfstate
 *.tfstate.*

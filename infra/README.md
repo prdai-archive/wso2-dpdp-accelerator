@@ -15,7 +15,7 @@ install or configure WSO2 Identity Server, a database, or the accelerator.
 
 ## Prerequisites
 
-- Terraform 1.7 or newer, or `devbox shell`
+- Terraform 1.7 or newer
 - a Harvester bootstrap kubeconfig that can create namespace access
 - the Harvester API address, tenant namespace, Ubuntu image, and VM network
 - one SSH public key for every person who needs VM access
@@ -29,8 +29,13 @@ service-account kubeconfig is written to the git-ignored
 ```bash
 cp infra/access/terraform.tfvars.example infra/access/terraform.tfvars
 # Fill in every REPLACE value.
-make access-plan
-make access-apply
+terraform -chdir=infra/access init
+terraform -chdir=infra/access plan
+# Review the plan before applying it.
+terraform -chdir=infra/access apply
+mkdir -p kube-config
+umask 077
+terraform -chdir=infra/access output -raw kubeconfig > kube-config/harvester.yaml
 ```
 
 ## Provision the VMs
@@ -42,14 +47,15 @@ private keys must never be shared.
 ```bash
 cp infra/vms/terraform.tfvars.example infra/vms/terraform.tfvars
 # Fill in the tenant values and SSH public keys.
-make vms-plan
+terraform -chdir=infra/vms init
+terraform -chdir=infra/vms plan
 # Review the plan before applying it.
-make vms-apply
-make ips
+terraform -chdir=infra/vms apply
+terraform -chdir=infra/vms output vms
 ```
 
-No infrastructure is created until `make access-apply` or `make vms-apply` is
-run with real Harvester values.
+No infrastructure is created until `terraform apply` is run with real
+Harvester values.
 
 ## SSH access
 
@@ -60,11 +66,13 @@ public key:
 ssh -i ~/.ssh/id_ed25519 ubuntu@<VM_IP>
 ```
 
-The operator can use the convenience targets, overriding `SSH_KEY` when needed:
+The operator can read each address from Terraform and connect directly:
 
 ```bash
-make ssh-is
-make ssh-db SSH_KEY=$HOME/.ssh/id_ed25519_work
+IS_VM_IP=$(terraform -chdir=infra/vms output -raw is_vm_ip)
+DB_VM_IP=$(terraform -chdir=infra/vms output -raw db_vm_ip)
+ssh -i ~/.ssh/id_ed25519 ubuntu@"$IS_VM_IP"
+ssh -i ~/.ssh/id_ed25519 ubuntu@"$DB_VM_IP"
 ```
 
 Adding a key to Terraform after a VM has already booted does not reliably rerun

@@ -1,7 +1,7 @@
 # Sensitive: this kubeconfig carries a long-lived ServiceAccount token. It is
-# deliberately not written to disk by Terraform - `make access` writes it with a
-# 0600 umask instead, because a checked-in (or world-readable) copy would leak a
-# credential that outlives any operator's own access.
+# deliberately not written to disk by Terraform. Write it with a 0600 umask,
+# because a checked-in or world-readable copy would leak a credential that
+# outlives any operator's own access.
 output "kubeconfig" {
   description = "Kubeconfig for the namespace-scoped ServiceAccount. Consumed by infra/vms. Handle as a secret."
   value       = module.vm_access.kubeconfig
