@@ -1,0 +1,22 @@
+# Copy to terraform.tfvars and fill in. terraform.tfvars is git-ignored.
+# Credentials (vm_password) go in secret.tfvars - also git-ignored.
+
+# Path to the kubeconfig from ../access. Only change this if you keep it
+# somewhere other than the repo-root kube-config/ directory.
+# harvester_kubeconfig_path = "../../kube-config/harvester.yaml"
+
+# prefix = "dpdp"   # VM names become <prefix>-is and <prefix>-db
+
+# Ask the platform team for these three - they are tenant-specific and there is
+# no sensible default. The values below are from the OpenHealthCare demos tenant
+# and are shown only to illustrate the expected shape.
+vm_namespace = "solutions-rnd-oh-demos"                             # REPLACE
+vm_image     = "images/ubuntu-24-04"                                # REPLACE
+vm_network   = "solutions-rnd-oh-demos-common/vm-subnet-730"        # REPLACE
+
+# vm_user = "ubuntu"
+
+# This path is expanded by Terraform before the public key is injected into
+# both VMs. Use ssh_authorized_keys instead when more than one key is needed.
+ssh_public_key_path = "~/.ssh/id_ed25519.pub"
+# ssh_authorized_keys = ["ssh-ed25519 AAAA... you@host"]
