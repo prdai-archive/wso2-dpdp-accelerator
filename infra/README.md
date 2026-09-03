@@ -46,7 +46,7 @@ Each collaborator connects with the private key matching their configured
 public key:
 
 ```bash
-ssh -i ~/.ssh/id_ed25519 ubuntu@<VM_IP>
+ssh -i ~/.ssh/id_ed25519_dpdp ubuntu@<VM_IP>
 ```
 
 The Makefile prints each address and opens SSH sessions:
@@ -55,7 +55,7 @@ The Makefile prints each address and opens SSH sessions:
 make is-vm-ip
 make db-vm-ip
 make ssh-is
-make ssh-db SSH_KEY=$HOME/.ssh/id_ed25519_work
+make ssh-db
 ```
 
 Add every collaborator's public key directly to `ssh_authorized_keys`. At least

@@ -1,6 +1,6 @@
 TERRAFORM ?= terraform
 SSH_USER ?= ubuntu
-SSH_KEY ?= $(HOME)/.ssh/id_ed25519
+SSH_KEY ?= $(HOME)/.ssh/id_ed25519_dpdp
 
 .PHONY: help init plan apply ips is-vm-ip db-vm-ip ssh-is ssh-db validate
 
