@@ -16,27 +16,9 @@ install or configure WSO2 Identity Server, a database, or the accelerator.
 ## Prerequisites
 
 - Terraform 1.7 or newer
-- a Harvester bootstrap kubeconfig that can create namespace access
-- the Harvester API address, tenant namespace, Ubuntu image, and VM network
+- a platform-scoped Harvester kubeconfig with rights to create and manage VMs
+- the tenant namespace, Ubuntu image, and VM network
 - one SSH public key for every person who needs VM access
-
-## Create namespace-scoped access
-
-The bootstrap kubeconfig is used only by `infra/access`. The resulting
-service-account kubeconfig is written to the git-ignored
-`kube-config/harvester.yaml` with mode 0600.
-
-```bash
-cp infra/access/terraform.tfvars.example infra/access/terraform.tfvars
-# Fill in every REPLACE value.
-terraform -chdir=infra/access init
-terraform -chdir=infra/access plan
-# Review the plan before applying it.
-terraform -chdir=infra/access apply
-mkdir -p kube-config
-umask 077
-terraform -chdir=infra/access output -raw kubeconfig > kube-config/harvester.yaml
-```
 
 ## Provision the VMs
 
@@ -46,7 +28,7 @@ private keys must never be shared.
 
 ```bash
 cp infra/vms/terraform.tfvars.example infra/vms/terraform.tfvars
-# Fill in the tenant values and SSH public keys.
+# Set the platform kubeconfig path, tenant values, and SSH public keys.
 terraform -chdir=infra/vms init
 terraform -chdir=infra/vms plan
 # Review the plan before applying it.

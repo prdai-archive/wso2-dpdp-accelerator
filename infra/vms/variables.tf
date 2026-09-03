@@ -1,7 +1,6 @@
 variable "harvester_kubeconfig_path" {
   type        = string
-  description = "Path to the kubeconfig minted by ../access. Relative to infra/vms, which is where terraform runs from."
-  default     = "../../kube-config/harvester.yaml"
+  description = "Path to the platform-scoped Harvester kubeconfig used to provision and manage these VMs."
 }
 
 variable "prefix" {
@@ -12,7 +11,7 @@ variable "prefix" {
 
 variable "vm_namespace" {
   type        = string
-  description = "Harvester namespace (tenant project namespace) to create the VMs in. Must match the namespace ../access was run against."
+  description = "Harvester namespace (tenant project namespace) to create the VMs in."
 }
 
 variable "vm_image" {

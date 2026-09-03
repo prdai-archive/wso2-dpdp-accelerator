@@ -1,4 +1,4 @@
-# Both providers read the kubeconfig minted by ../access (see infra/README.md).
+# Both providers use the platform-scoped Harvester kubeconfig supplied as input.
 
 provider "harvester" {
   kubeconfig = file(pathexpand(var.harvester_kubeconfig_path))

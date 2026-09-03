@@ -1,8 +1,8 @@
 # Copy to terraform.tfvars and fill in. terraform.tfvars is git-ignored.
 
-# Path to the kubeconfig from ../access. Only change this if you keep it
-# somewhere other than the repo-root kube-config/ directory.
-# harvester_kubeconfig_path = "../../kube-config/harvester.yaml"
+# Platform-scoped Harvester kubeconfig. This file is a credential; keep it
+# outside the repository and do not commit it.
+harvester_kubeconfig_path = "~/.kube/harvester-platform.yaml" # REPLACE
 
 # prefix = "dpdp"   # VM names become <prefix>-is and <prefix>-db
 
