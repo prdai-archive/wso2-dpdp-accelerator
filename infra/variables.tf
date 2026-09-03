@@ -36,12 +36,6 @@ variable "ssh_authorized_keys" {
   default     = []
 }
 
-variable "ssh_public_key_path" {
-  type        = string
-  description = "Optional path to the operator's SSH public key. Tilde expansion happens inside the module, unlike file() in a tfvars file."
-  default     = null
-}
-
 # The quoted 8 vCPU / 16 GiB / 100 GiB allocation is split across both VMs.
 # IS receives most compute because it runs the JVM, Carbon, and the portal; the
 # database receives half the disk because it owns the persistent application data.

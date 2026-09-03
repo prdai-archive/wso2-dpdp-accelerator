@@ -58,9 +58,8 @@ make ssh-is
 make ssh-db SSH_KEY=$HOME/.ssh/id_ed25519_work
 ```
 
-`ssh_public_key_path` is optional. It adds the public key stored at that path;
-use `ssh_authorized_keys` instead when keys are pasted directly. At least one
-of these inputs must provide a public key before Terraform can create the VMs.
+Add every collaborator's public key directly to `ssh_authorized_keys`. At least
+one key is required before Terraform can create the VMs.
 
 Adding a key to Terraform after a VM has already booted does not reliably rerun
 cloud-init. Add all known keys before the first apply. For later access, an

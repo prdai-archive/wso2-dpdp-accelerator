@@ -2,23 +2,18 @@
 
 # Platform-scoped Harvester kubeconfig. This file is a credential; keep it
 # outside the repository and do not commit it.
-harvester_kubeconfig_path = "~/.kube/harvester-platform.yaml" # REPLACE
+harvester_kubeconfig_path = "~/.kube/config" # REPLACE
 
 # prefix = "dpdp"   # VM names become <prefix>-is and <prefix>-db
 
-# Ask the platform team for these three - they are tenant-specific and there is
-# no sensible default. The values below are from the OpenHealthCare demos tenant
-# and are shown only to illustrate the expected shape.
-vm_namespace = "solutions-rnd-oh-demos"                             # REPLACE
-vm_image     = "images/ubuntu-24-04"                                # REPLACE
-vm_network   = "solutions-rnd-oh-demos-common/vm-subnet-730"        # REPLACE
+vm_namespace = "solutions-rnd-dpdp-demos"
+vm_image     = "images/ubuntu-24-04"
+vm_network   = "solutions-rnd-dpdp-demos-common/vm-subnet-733"
 
 # vm_user = "ubuntu"
 
-# This path adds the operator's key. List every collaborator's public key in
-# ssh_authorized_keys before the first apply so each person uses their own key.
-ssh_public_key_path = "~/.ssh/id_ed25519.pub"
+# Add every collaborator's public key directly. Never add a private key.
 ssh_authorized_keys = [
-  # "ssh-ed25519 AAAA... colleague-one",
-  # "ssh-ed25519 AAAA... colleague-two",
+  # "ssh-ed25519 AAAA... collaborator-one",
+  # "ssh-ed25519 AAAA... collaborator-two",
 ]

@@ -2,23 +2,18 @@
 # the guest agent is also absent and Harvester cannot report the VM address.
 check "vm_access" {
   assert {
-    condition     = length(var.ssh_authorized_keys) > 0 || var.ssh_public_key_path != null
-    error_message = "Set ssh_public_key_path and/or ssh_authorized_keys so the VMs receive cloud-init and can be reached over SSH."
+    condition     = length(var.ssh_authorized_keys) > 0
+    error_message = "Set ssh_authorized_keys so the VMs receive cloud-init and can be reached over SSH."
   }
 }
 
 locals {
-  ssh_authorized_keys = concat(
-    var.ssh_authorized_keys,
-    var.ssh_public_key_path == null ? [] : [trimspace(file(pathexpand(var.ssh_public_key_path)))]
-  )
-
   common = {
     namespace           = var.vm_namespace
     image_name          = var.vm_image
     network_name        = var.vm_network
     default_user        = var.vm_user
-    ssh_authorized_keys = local.ssh_authorized_keys
+    ssh_authorized_keys = var.ssh_authorized_keys
   }
 }
 
