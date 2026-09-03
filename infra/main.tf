@@ -18,7 +18,7 @@ locals {
 }
 
 module "is_vm" {
-  source = "github.com/wso2/open-cloud-datacenter//modules/tenancy/vm?ref=terraform/v0.1.7"
+  source = "github.com/wso2/open-cloud-datacenter//modules/workloads/vm?ref=v0.8.0"
 
   name      = "${var.prefix}-is"
   cpu       = var.is_vm_cpu
@@ -35,7 +35,7 @@ module "is_vm" {
 }
 
 module "db_vm" {
-  source = "github.com/wso2/open-cloud-datacenter//modules/tenancy/vm?ref=terraform/v0.1.7"
+  source = "github.com/wso2/open-cloud-datacenter//modules/workloads/vm?ref=v0.8.0"
 
   name      = "${var.prefix}-db"
   cpu       = var.db_vm_cpu

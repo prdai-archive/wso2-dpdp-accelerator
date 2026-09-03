@@ -1,6 +1,6 @@
 variable "harvester_kubeconfig_path" {
   type        = string
-  description = "Path to the platform-scoped Harvester kubeconfig used to provision and manage these VMs."
+  description = "Path to the Rancher-generated Harvester kubeconfig used to provision and manage these VMs."
 }
 
 variable "prefix" {
