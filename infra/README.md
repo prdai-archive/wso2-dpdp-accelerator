@@ -7,8 +7,8 @@ provider, network, cloud-init, and console-password conventions.
 
 | VM | Intended role | vCPU | RAM | Root disk |
 | --- | --- | ---: | ---: | ---: |
-| `<prefix>-is` | Identity Server | 6 | 12 GiB | 50 GiB |
-| `<prefix>-db` | Database | 2 | 4 GiB | 50 GiB |
+| `dpdp-is` | Identity Server | 6 | 12 GiB | 50 GiB |
+| `dpdp-db` | Database | 2 | 4 GiB | 50 GiB |
 
 The split stays within the quoted total of 8 vCPU, 16 GiB RAM, and 100 GiB
 storage. This PR only provisions infrastructure and serial-console access. It does not
@@ -58,9 +58,9 @@ make console-db
 ```
 
 These commands set `KUBECONFIG` to `HARVESTER_KUBECONFIG` and invoke `virtctl
-console` for the relevant VM. Exit a console session with `Ctrl+]`. Set the
-sensitive `vm_console_password` only in ignored local `terraform.tfvars` when
-console password access is required; never commit it.
+console` for the relevant VM. Log in as `ubuntu` with the temporary password
+stored in ignored local `terraform.tfvars`; never commit it. Exit a console
+session with `Ctrl+]`.
 
 ## Deferred SSH access
 
