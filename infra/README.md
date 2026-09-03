@@ -27,13 +27,14 @@ Copy the variables file and add each collaborator's public key to
 private keys must never be shared.
 
 ```bash
-cp infra/vms/terraform.tfvars.example infra/vms/terraform.tfvars
+cd infra
+cp terraform.tfvars.example terraform.tfvars
 # Set the platform kubeconfig path, tenant values, and SSH public keys.
-terraform -chdir=infra/vms init
-terraform -chdir=infra/vms plan
+make init
+make plan
 # Review the plan before applying it.
-terraform -chdir=infra/vms apply
-terraform -chdir=infra/vms output vms
+make apply
+make ips
 ```
 
 No infrastructure is created until `terraform apply` is run with real
@@ -48,14 +49,18 @@ public key:
 ssh -i ~/.ssh/id_ed25519 ubuntu@<VM_IP>
 ```
 
-The operator can read each address from Terraform and connect directly:
+The Makefile prints each address and opens SSH sessions:
 
 ```bash
-IS_VM_IP=$(terraform -chdir=infra/vms output -raw is_vm_ip)
-DB_VM_IP=$(terraform -chdir=infra/vms output -raw db_vm_ip)
-ssh -i ~/.ssh/id_ed25519 ubuntu@"$IS_VM_IP"
-ssh -i ~/.ssh/id_ed25519 ubuntu@"$DB_VM_IP"
+make is-vm-ip
+make db-vm-ip
+make ssh-is
+make ssh-db SSH_KEY=$HOME/.ssh/id_ed25519_work
 ```
+
+`ssh_public_key_path` is optional. It adds the public key stored at that path;
+use `ssh_authorized_keys` instead when keys are pasted directly. At least one
+of these inputs must provide a public key before Terraform can create the VMs.
 
 Adding a key to Terraform after a VM has already booted does not reliably rerun
 cloud-init. Add all known keys before the first apply. For later access, an
