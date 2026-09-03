@@ -60,6 +60,11 @@ make ssh-is
 make ssh-db
 ```
 
+The IP targets query the namespace-scoped KubeVirt VM status through `kubectl`.
+They do not require cluster-wide CRD permissions, which tenant kubeconfigs do
+not have. Override `HARVESTER_KUBECONFIG`, `VM_NAMESPACE`, or `VM_PREFIX` when
+your local values differ from the defaults.
+
 Add every collaborator's public key directly to `ssh_authorized_keys`. At least
 one key is required before Terraform can create the VMs.
 
