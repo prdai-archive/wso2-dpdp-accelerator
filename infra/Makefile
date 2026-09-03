@@ -26,10 +26,10 @@ db-vm-ip:
 	@$(TERRAFORM) output -raw db_vm_ip
 
 ssh-is:
-	ssh -i "$(SSH_KEY)" "$(SSH_USER)@$$($(TERRAFORM) output -raw is_vm_ip)"
+	ssh -i "$(SSH_KEY)" "$(SSH_USER)@$$($(MAKE) --no-print-directory is-vm-ip)"
 
 ssh-db:
-	ssh -i "$(SSH_KEY)" "$(SSH_USER)@$$($(TERRAFORM) output -raw db_vm_ip)"
+	ssh -i "$(SSH_KEY)" "$(SSH_USER)@$$($(MAKE) --no-print-directory db-vm-ip)"
 
 validate:
 	$(TERRAFORM) fmt -check
