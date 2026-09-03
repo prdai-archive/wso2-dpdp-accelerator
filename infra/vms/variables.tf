@@ -27,7 +27,7 @@ variable "vm_network" {
 
 variable "vm_user" {
   type        = string
-  description = "OS user created by cloud-init on both VMs. Everything under scripts/ logs in as this user."
+  description = "OS user created by cloud-init on both VMs."
   default     = "ubuntu"
 }
 
