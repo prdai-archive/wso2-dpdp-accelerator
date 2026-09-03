@@ -68,14 +68,7 @@ your local values differ from the defaults.
 ## Console access
 
 When the VM subnet is not reachable from the local network, use the serial
-console through `virtctl`. On Linux, install it under `~/.local/bin` using the
-platform guide's upstream KubeVirt release source:
-
-```bash
-make install-virtctl
-```
-
-Then run the console target:
+console through a separately installed `virtctl` binary. Run the console target:
 
 ```bash
 make console-is
@@ -93,10 +86,3 @@ cloud-init. Add all known keys before the first apply. For later access, an
 existing administrator should append the new public key to the VM user's
 `~/.ssh/authorized_keys`, or the VM should be deliberately reprovisioned after
 its data-recovery impact is reviewed.
-
-## Console fallback
-
-Harvester administrators can use `virtctl console <VM_NAME> -n <NAMESPACE>`
-with an authorized Harvester kubeconfig when SSH is unavailable. Exit the serial
-console with `Ctrl+]`. Console access is an administrative recovery path and is
-not a replacement for per-person SSH keys.
