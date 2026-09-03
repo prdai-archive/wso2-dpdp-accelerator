@@ -1,20 +1,17 @@
-# The VM module only emits cloud-init when an SSH key is set. Without cloud-init,
-# the guest agent is also absent and Harvester cannot report the VM address.
-check "vm_access" {
+check "console_access" {
   assert {
-    condition     = length(var.ssh_authorized_keys) > 0
-    error_message = "Set ssh_authorized_keys so the VMs receive cloud-init and can be reached over SSH."
+    condition     = var.vm_console_password != null
+    error_message = "Set vm_console_password so the VMs receive cloud-init and can be accessed through the serial console."
   }
 }
 
 locals {
   common = {
-    namespace           = var.vm_namespace
-    image_name          = var.vm_image
-    network_name        = var.vm_network
-    default_user        = var.vm_user
-    password            = var.vm_console_password
-    ssh_authorized_keys = var.ssh_authorized_keys
+    namespace    = var.vm_namespace
+    image_name   = var.vm_image
+    network_name = var.vm_network
+    default_user = var.vm_user
+    password     = var.vm_console_password
   }
 }
 
@@ -28,12 +25,11 @@ module "is_vm" {
 
   run_strategy = "RerunOnFailure"
 
-  namespace           = local.common.namespace
-  image_name          = local.common.image_name
-  network_name        = local.common.network_name
-  default_user        = local.common.default_user
-  password            = local.common.password
-  ssh_authorized_keys = local.common.ssh_authorized_keys
+  namespace    = local.common.namespace
+  image_name   = local.common.image_name
+  network_name = local.common.network_name
+  default_user = local.common.default_user
+  password     = local.common.password
 }
 
 module "db_vm" {
@@ -46,10 +42,9 @@ module "db_vm" {
 
   run_strategy = "RerunOnFailure"
 
-  namespace           = local.common.namespace
-  image_name          = local.common.image_name
-  network_name        = local.common.network_name
-  default_user        = local.common.default_user
-  password            = local.common.password
-  ssh_authorized_keys = local.common.ssh_authorized_keys
+  namespace    = local.common.namespace
+  image_name   = local.common.image_name
+  network_name = local.common.network_name
+  default_user = local.common.default_user
+  password     = local.common.password
 }

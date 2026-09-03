@@ -13,9 +13,3 @@ vm_network   = "solutions-rnd-dpdp-demos-common/vm-subnet-733"
 # Temporary console password for vm_user. Keep this only in the ignored local
 # terraform.tfvars file; never commit it.
 # vm_console_password = "REPLACE_WITH_A_TEMPORARY_PASSWORD"
-
-# Add every collaborator's public key directly. Never add a private key.
-ssh_authorized_keys = [
-  # "ssh-ed25519 AAAA... collaborator-one",
-  # "ssh-ed25519 AAAA... collaborator-two",
-]

@@ -37,12 +37,6 @@ variable "vm_console_password" {
   sensitive   = true
 }
 
-variable "ssh_authorized_keys" {
-  type        = list(string)
-  description = "SSH public keys authorised for vm_user on both VMs. Add one key for each person who needs access."
-  default     = []
-}
-
 # The quoted 8 vCPU / 16 GiB / 100 GiB allocation is split across both VMs.
 # IS receives most compute because it runs the JVM, Carbon, and the portal; the
 # database receives half the disk because it owns the persistent application data.
