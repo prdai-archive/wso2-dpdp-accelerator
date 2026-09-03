@@ -30,6 +30,13 @@ variable "vm_user" {
   default     = "ubuntu"
 }
 
+variable "vm_console_password" {
+  type        = string
+  description = "Temporary password for vm_user console access. Set null to disable password login."
+  default     = null
+  sensitive   = true
+}
+
 variable "ssh_authorized_keys" {
   type        = list(string)
   description = "SSH public keys authorised for vm_user on both VMs. Add one key for each person who needs access."

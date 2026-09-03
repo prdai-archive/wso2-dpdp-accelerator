@@ -76,7 +76,9 @@ make console-db
 ```
 
 These commands set `KUBECONFIG` to `HARVESTER_KUBECONFIG` and invoke `virtctl
-console` for the relevant VM. Exit a console session with `Ctrl+]`.
+console` for the relevant VM. Exit a console session with `Ctrl+]`. Set the
+sensitive `vm_console_password` only in ignored local `terraform.tfvars` when
+console password access is required; never commit it.
 
 Add every collaborator's public key directly to `ssh_authorized_keys`. At least
 one key is required before Terraform can create the VMs.

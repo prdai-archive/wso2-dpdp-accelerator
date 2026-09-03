@@ -13,6 +13,7 @@ locals {
     image_name          = var.vm_image
     network_name        = var.vm_network
     default_user        = var.vm_user
+    password            = var.vm_console_password
     ssh_authorized_keys = var.ssh_authorized_keys
   }
 }
@@ -31,6 +32,7 @@ module "is_vm" {
   image_name          = local.common.image_name
   network_name        = local.common.network_name
   default_user        = local.common.default_user
+  password            = local.common.password
   ssh_authorized_keys = local.common.ssh_authorized_keys
 }
 
@@ -48,5 +50,6 @@ module "db_vm" {
   image_name          = local.common.image_name
   network_name        = local.common.network_name
   default_user        = local.common.default_user
+  password            = local.common.password
   ssh_authorized_keys = local.common.ssh_authorized_keys
 }
