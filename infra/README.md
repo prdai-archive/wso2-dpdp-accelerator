@@ -21,6 +21,18 @@ install or configure WSO2 Identity Server, a database, or the accelerator.
 - the tenant namespace, Ubuntu image, and VM network
 - a temporary console password stored only in ignored local Terraform variables
 
+### Download the Harvester kubeconfig
+
+1. Sign in to Rancher and open [Virtualization Management](https://rancher-us-prod.iaas.sys.wso2.com/dashboard/c/_/harvesterManager/harvesterhci.io.management.cluster).
+2. Select the Harvester cluster (`c-tvfw4`) and choose **Download Kubeconfig**.
+3. Store the downloaded file locally with owner-only permissions, for example
+   `~/.kube/us-dc-harvester-cluster.yaml`, and set `harvester_kubeconfig_path`
+   to that path in ignored `terraform.tfvars`.
+
+Confirm that the [`solutions-rnd-dpdp-demos` project and namespace](https://rancher-us-prod.iaas.sys.wso2.com/dashboard/harvester/c/c-tvfw4/projectsnamespacesCan)
+are available. The configured VM network is
+[`solutions-rnd-dpdp-demos-common/vm-subnet-733`](https://rancher-us-prod.iaas.sys.wso2.com/dashboard/harvester/c/c-tvfw4/harvesterhci.io.networkattachmentdefinitionIn).
+
 ## Provision the VMs
 
 Copy the variables file, set `harvester_kubeconfig_path` to the local,
