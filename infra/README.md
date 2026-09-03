@@ -65,6 +65,26 @@ They do not require cluster-wide CRD permissions, which tenant kubeconfigs do
 not have. Override `HARVESTER_KUBECONFIG`, `VM_NAMESPACE`, or `VM_PREFIX` when
 your local values differ from the defaults.
 
+## Console access
+
+When the VM subnet is not reachable from the local network, use the serial
+console through `virtctl`. On Linux, install it under `~/.local/bin` using the
+platform guide's upstream KubeVirt release source:
+
+```bash
+make install-virtctl
+```
+
+Then run the console target:
+
+```bash
+make console-is
+make console-db
+```
+
+These commands set `KUBECONFIG` to `HARVESTER_KUBECONFIG` and invoke `virtctl
+console` for the relevant VM. Exit a console session with `Ctrl+]`.
+
 Add every collaborator's public key directly to `ssh_authorized_keys`. At least
 one key is required before Terraform can create the VMs.
 

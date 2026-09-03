@@ -1,15 +1,17 @@
 TERRAFORM ?= terraform
 KUBECTL ?= kubectl
+VIRTCTL_INSTALL_DIR ?= $(HOME)/.local/bin
+VIRTCTL ?= $(VIRTCTL_INSTALL_DIR)/virtctl
 HARVESTER_KUBECONFIG ?= $(HOME)/.kube/us-dc-harvester-cluster.yaml
 VM_NAMESPACE ?= solutions-rnd-dpdp-demos
 VM_PREFIX ?= dpdp
 SSH_USER ?= ubuntu
 SSH_KEY ?= $(HOME)/.ssh/id_ed25519_dpdp
 
-.PHONY: help init plan apply ips is-vm-ip db-vm-ip ssh-is ssh-db validate
+.PHONY: help init plan apply install-virtctl ips is-vm-ip db-vm-ip ssh-is ssh-db console-is console-db validate
 
 help:
-	@echo "Targets: init, plan, apply, ips, is-vm-ip, db-vm-ip, ssh-is, ssh-db, validate"
+	@echo "Targets: init, plan, apply, install-virtctl, ips, is-vm-ip, db-vm-ip, ssh-is, ssh-db, console-is, console-db, validate"
 
 init:
 	$(TERRAFORM) init
@@ -19,6 +21,15 @@ plan:
 
 apply:
 	$(TERRAFORM) apply
+
+install-virtctl:
+	@version="$$(curl -fsSL https://storage.googleapis.com/kubevirt-prow/release/kubevirt/kubevirt/stable.txt)"; \
+	tmp="$$(mktemp)"; \
+	trap 'rm -f "$$tmp"' EXIT; \
+	curl -fL "https://github.com/kubevirt/kubevirt/releases/download/$$version/virtctl-$$version-linux-amd64" -o "$$tmp"; \
+	install -d "$(VIRTCTL_INSTALL_DIR)"; \
+	install -m 0755 "$$tmp" "$(VIRTCTL_INSTALL_DIR)/virtctl"; \
+	"$(VIRTCTL_INSTALL_DIR)/virtctl" version
 
 ips:
 	$(TERRAFORM) output vms
@@ -40,6 +51,12 @@ ssh-is:
 ssh-db:
 	@ip="$$($(MAKE) --no-print-directory db-vm-ip)" || exit $$?; \
 	ssh -i "$(SSH_KEY)" "$(SSH_USER)@$$ip"
+
+console-is:
+	KUBECONFIG="$(HARVESTER_KUBECONFIG)" $(VIRTCTL) console "$(VM_PREFIX)-is" --namespace "$(VM_NAMESPACE)"
+
+console-db:
+	KUBECONFIG="$(HARVESTER_KUBECONFIG)" $(VIRTCTL) console "$(VM_PREFIX)-db" --namespace "$(VM_NAMESPACE)"
 
 validate:
 	$(TERRAFORM) fmt -check
